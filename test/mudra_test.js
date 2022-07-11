@@ -44,5 +44,4 @@ describe("Mudra deployment", function () {
     expect(addr2Balanace).to.equal(0);
   })
 
-  
 });

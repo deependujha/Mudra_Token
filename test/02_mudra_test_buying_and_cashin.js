@@ -44,20 +44,31 @@ describe("Buying Mudra, and cashing it in", function () {
 
   // Unit testing- should be able to cashin tokens
   it("should be able to cashin tokens", async () => {
-    console.log(`**********************`);
+    console.log(`*****************************************************`);
     let balanceBeforeBuying = await ethers.provider.getBalance(owner.address);
-    console.log(`Balance before buying tokens: ${ethers.utils.formatEther(balanceBeforeBuying)}`);
-
-    await hardhatToken
-      .buyMudra(2000, { value: ethers.utils.parseEther("2") });
+    console.log(
+      `Balance before buying tokens: ${ethers.utils.formatEther(
+        balanceBeforeBuying
+      )}`
+    );
+    await hardhatToken.buyMudra(2000, { value: ethers.utils.parseEther("2") });
     let balanceAfterBuying = await ethers.provider.getBalance(owner.address);
-    console.log(`Balance After buying tokens: ${ethers.utils.formatEther(balanceAfterBuying)}`);
+    console.log(
+      `Balance After buying tokens: ${ethers.utils.formatEther(
+        balanceAfterBuying
+      )}`
+    );
     let myBal = await hardhatToken.connect(owner.address).myBalance();
     expect(myBal).to.equal(2000);
     const myStatus = await hardhatToken.connect(owner).cashInMudra(1000);
     let balanceAfterSelling = await ethers.provider.getBalance(owner.address);
-    console.log(`Balance After selling tokens: ${ethers.utils.formatEther(balanceAfterSelling)}`);
+    console.log(
+      `Balance After selling tokens: ${ethers.utils.formatEther(
+        balanceAfterSelling
+      )}`
+    );
     myBal = await hardhatToken.connect(owner).myBalance();
     expect(myBal).to.equal(1000);
+    console.log(`*****************************************************`);
   });
 });

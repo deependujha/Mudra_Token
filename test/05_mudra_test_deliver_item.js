@@ -21,10 +21,25 @@ describe("Unit testing for delivery of items", function () {
   });
 
   it("should revert on entering wrong delivery key", async () => {
-    const deliveryKey = await hardhatToken.connect(addr1).checkDeliveryKey(1234);
+    const deliveryKey = await hardhatToken
+      .connect(addr1)
+      .checkDeliveryKey(1234);
     const wrongDeliveryKey = deliveryKey + 1;
     await expect(
       hardhatToken.deliverItem(1234, wrongDeliveryKey)
     ).to.be.revertedWith("Sorry, wrong delivery key. Please recheck.");
+  });
+
+  it("should transfer balance from address to seller", async () => {
+    const deliveryKey = await hardhatToken
+      .connect(addr1)
+      .checkDeliveryKey(1234);
+    const sellerBalanceBefore = await hardhatToken.connect(addr2).myBalance();
+    await hardhatToken.deliverItem(1234, deliveryKey);
+    const sellerBalanceAfter = await hardhatToken.connect(addr2).myBalance();
+    expect(sellerBalanceAfter).to.equal(sellerBalanceBefore + 400);
+    await expect(
+      hardhatToken.connect(addr1).checkDeliveryKey(1234)
+    ).to.be.revertedWith("Sorry, You are not the buyer.");
   });
 });

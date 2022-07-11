@@ -1,0 +1,1 @@
+Token is deployed on ropsten network at address: 0x20bD9e821e257340F5E37bCD817184feb6EB1A34
